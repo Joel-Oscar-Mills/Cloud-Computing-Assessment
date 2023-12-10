@@ -27,5 +27,16 @@ Besides that all other installations as listed in the requirements.txt file. are
 
 ### To Run, Follow these Bash Commands:
 
-Firstly, delete any exisiting Docker containers, images, volumes or networks as such:
+Firstly, delete any exisiting Docker containers, images, volumes or networks as such (the 2nd command automatically pulls a fresh image from the repo and won't use the cached version that is prebuilt with any parameters you've been using before):
+
+% docker system prune -a
+% docker-compose build --no-cache
+
+Then, create a network called "custom_network" to launch all of our containers on:
+
+% docker network create custom_network
+
+Lastly, run the "automation.py" script and specify how many machines should be running computations in parallel (in this case, 100):
+
+% python automation.py 100
 
