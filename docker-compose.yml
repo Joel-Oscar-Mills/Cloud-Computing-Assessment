@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  data_processing:
+    build:
+      context: .
+      dockerfile: data_processing/Dockerfile
+    volumes:
+      - type: bind
+        source: ./data
+        target: /app/data
+    environment:
+      - SAMPLE
+      - START_INDEX
+      - END_INDEX
+    networks:
+      - custom_network
+
+  plotting:
+    build:
+      context: .
+      dockerfile: plotting/Dockerfile
+    volumes:
+      - type: bind
+        source: ./data
+        target: /app/data
+    depends_on:
+      - data_processing
+    networks:
+      - custom_network
+
+networks:
+  custom_network:
+    external: true
