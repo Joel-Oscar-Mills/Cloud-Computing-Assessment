@@ -89,22 +89,6 @@ def aggregate_data(base_path="/app/data/"):
     return aggregated_data
 
 
-'''''
-
-def wait_for_all_flags(base_path="/app/data/"):
-    with open(os.path.join(base_path, "num_workers.txt"), "r") as f:
-        num_workers = int(f.read().strip())
-    flag_files = [f"flag_{i}.flag" for i in range(num_workers)]
-    all_flags_present = False
-    while not all_flags_present:
-        all_flags_present = all(os.path.exists(os.path.join(base_path, f)) for f in flag_files)
-        if not all_flags_present:
-            print("Waiting for data processing to complete...")
-            time.sleep(10)
-    print("Data processing complete.")
-
-'''''
-
 
 def plot_data(data):
     xmin = 80 * GeV
