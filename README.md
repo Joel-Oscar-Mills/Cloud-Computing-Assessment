@@ -27,11 +27,9 @@ Besides that all other installations as listed in the requirements.txt file. are
 
 ### To Run, Follow these Bash Commands:
 
-Firstly, delete any exisiting Docker containers, images, volumes or networks using the prune command. The 2nd command automatically pulls a fresh image from the repo, and won't use the cached version that is prebuilt with any parameters you've been using before/ depends on outdated versions of the code. Then, create a network called "custom_network" to launch all of our containers on. Lastly, run the "automation.py" script and specify how many machines should be running computations in parallel (in this case, 100). The "automation.py" script automates all the building and running of our services.
-
 % docker system prune -a <br>
 % docker-compose build --no-cache <br>
 % docker network create custom_network <br>
 % python automation.py 100 <br>
 
-Once the program has finished running, you will find the resulting histogram from the HZZ-analysis in the shared volume on your host machine "./data/my_plot.png"
+Firstly, delete any exisiting Docker containers, images, volumes or networks using the prune command. The 2nd command automatically pulls a fresh image from the repo, and won't use the cached version that is prebuilt with any parameters you've been using before/ depends on outdated versions of the code. Then, create a network called "custom_network" to launch all of our containers on. Lastly, run the "automation.py" script and specify how many machines should be running computations in parallel (in this case, 100). The "automation.py" script automates all the building and running of our services. Once the program has finished running, you will find the resulting histogram from the HZZ-analysis in the shared volume on your host machine "./data/my_plot.png"
