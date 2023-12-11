@@ -12,13 +12,17 @@ sys.path.append(script_dir)
 import infofile
     
 
-def main(num_workers):  
+def main(num_workers): 
 
     tuple_path = "https://atlas-opendata.web.cern.ch/atlas-opendata/samples/2020/4lep/" # web address
+
+    # define the names of each sample data-set
 
     samples = ['data_A', 'data_B', 'data_C', 'data_D',
                'Zee', 'Zmumu', 'ttbar_lep', 'llll',
                'ggH125_ZZ4lep', 'VBFH125_ZZ4lep', 'WH125_ZZ4lep', 'ZH125_ZZ4lep']
+
+    # define the sample-specific prefixes that appear in the filepaths to each sample
         
     library = {}
     library['data_A'] = "Data/"
@@ -34,13 +38,17 @@ def main(num_workers):
     library['WH125_ZZ4lep'] = "MC/mc_"+str(infofile.infos['WH125_ZZ4lep']["DSID"])+"."
     library['ZH125_ZZ4lep'] = "MC/mc_"+str(infofile.infos['ZH125_ZZ4lep']["DSID"])+"."
 
-        
+
+    # loop through all files in working diorectory 
+    
     with open("./data/num_workers.txt", "w") as f:
         f.write(str(num_workers))                
 
     for sample in samples:
     
         processes = []
+
+        # get path to data for this sample
 
         path = os.path.join(tuple_path, library[sample] + sample + ".4lep.root")
         with uproot.open(path + ":mini") as tree:
@@ -54,16 +62,22 @@ def main(num_workers):
             if i == num_workers - 1:
                 end_index = total_entries
 
+            # launch (in non-blocking fashion) a parallel data_processing service to work through a certain portion of the indices
+
             process = subprocess.Popen(["docker-compose", "run", "--rm", "-e", f"SAMPLE={sample}", 
                             "-e", f"START_INDEX={start_index}", "-e", f"END_INDEX={end_index}", 
                             "data_processing"])
     
             processes.append(process)
 
-        # Run the plotting process after all data processing is done
+        # wait for all data_processing services to have finished and therefore written their fragment \\
+        # of the output data to the shared volume
+          
+        
         for process in processes:
             process.wait()
-        
+
+    # launch the plotting service
     
     subprocess.run(["docker-compose", "run", "--rm", "plotting"])
 
