@@ -37,6 +37,7 @@ samples = {
 
 }
 
+# function to aggregate the fragments of each output file in the shared volume into the form required by the original HZZ-analysis
 
 def aggregate_data(base_path="/app/data/"):
     # Temporary dictionary to store the data
