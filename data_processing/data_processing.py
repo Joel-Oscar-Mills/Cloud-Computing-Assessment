@@ -149,6 +149,8 @@ def read_file(path, sample, start_index, end_index):
 
 if __name__ == "__main__":
 
+    # define all the prefixes which appear in the filepaths to their respective sample
+
     library = {}
     library['data_A'] = "Data/"
     library['data_B'] = "Data/"
@@ -164,6 +166,10 @@ if __name__ == "__main__":
     library['ZH125_ZZ4lep'] = "MC/mc_"+str(infofile.infos['ZH125_ZZ4lep']["DSID"])+"."
     
     start = time.time()
+
+    # define environment variables specifying which sample and portion of the indices in that sample \\
+    # a particular service is assigned to work through
+  
     sample = os.getenv('SAMPLE')
     start_index = int(os.getenv('START_INDEX'))
     end_index = int(os.getenv('END_INDEX'))
